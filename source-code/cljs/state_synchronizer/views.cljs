@@ -31,8 +31,8 @@
   (reagent/lifecycles {:component-will-unmount (fn [_ _ _] (side-effects/sensor-will-unmount-f synchronizer-id synchronizer-props))
                        :component-did-mount    (fn [_ _ _] (side-effects/sensor-did-mount-f    synchronizer-id synchronizer-props))
                        :component-did-update   (fn [%]     (side-effects/sensor-did-update-f   synchronizer-id %))
-                       ;:reagent-render        (fn [_ _ _] [sensor-debug                       synchronizer-id synchronizer-props])
-                       :reagent-render         (fn [_ _ _])}))
+                       :reagent-render         (fn [_ _ _] (if (:debug? synchronizer-props)
+                                                               [sensor-debug synchronizer-id synchronizer-props]))}))
 
 (defn sensor
   ; @note
@@ -66,5 +66,6 @@
   ;                             :get-trigger-value-f #(deref  SECONDARY-STATE)
   ;                             :set-primary-state-f #(reset! PRIMARY-STATE %)}])
   [synchronizer-id {:keys [get-trigger-value-f] :as synchronizer-props}]
-  (let [trigger-value (if get-trigger-value-f (get-trigger-value-f))]
-       [sensor-lifecycles synchronizer-id synchronizer-props trigger-value]))
+  (fn [_ _] ; <- With this debouncer solution, the sensor component only updates when the TRIGGER value changes.
+      (let [trigger-value (if get-trigger-value-f (get-trigger-value-f))]
+           [sensor-lifecycles synchronizer-id synchronizer-props trigger-value])))
