@@ -36,7 +36,7 @@
 
 (defn sensor
   ; @note
-  ; This sensor uses reagent lifecycles to react changes.
+  ; This sensor uses reagent lifecycles to react to parameter updates.
   ;
   ; @description
   ; Keeps two different states synchronized, by reacting to the changes of the secondary state
@@ -66,6 +66,9 @@
   ;                             :get-trigger-value-f #(deref  SECONDARY-STATE)
   ;                             :set-primary-state-f #(reset! PRIMARY-STATE %)}])
   [synchronizer-id {:keys [get-trigger-value-f] :as synchronizer-props}]
-  (fn [_ _] ; <- With this debouncer solution, the sensor component only updates when the TRIGGER value changes.
+  ; Debouncing / avoiding unnecessary rerenderings:
+  ; Using a muted render function '(fn [_ _])' prevents the component reacting to updated parameters.
+  ; It reacts only when the output of the 'get-trigger-value-f' function changes.
+  (fn [_ _]
       (let [trigger-value (if get-trigger-value-f (get-trigger-value-f))]
            [sensor-lifecycles synchronizer-id synchronizer-props trigger-value])))
