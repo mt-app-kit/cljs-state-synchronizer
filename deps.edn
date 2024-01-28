@@ -1,5 +1,5 @@
 
 {:paths ["source-code/cljs"]
  :deps  {bithandshake/reagent-api  {:git/url "https://github.com/bithandshake/reagent-api"
-                                    :sha     "7bf8ec3deb105fae018cf5916c99ebcc86197a64"}
+                                    :sha     "58059e08b4b2791463b9f4bf1dfd494a0f1c89c4"}
          org.clojure/clojurescript {:mvn/version "1.10.891"}}}
