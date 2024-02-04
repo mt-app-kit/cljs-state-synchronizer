@@ -46,6 +46,8 @@
   ; @param (map) synchronizer-props
   ; {:autoclear? (boolean)(opt)
   ;   If TRUE, the sensor overwrites the primary state with NIL when its last instance (of the same ID) gets unmounted.
+  ;  :debug? (boolean)(opt)
+  ;   If TRUE, displays debug content and prints debug messages.
   ;  :get-monitor-value-f (function)
   ;   Must return the synchronized value (read from the primary state).
   ;  :get-trigger-value-f (function)
