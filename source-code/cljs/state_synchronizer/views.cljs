@@ -1,6 +1,6 @@
 
 (ns state-synchronizer.views
-    (:require [reagent.api                     :as reagent]
+    (:require [reagent.core :as reagent]
               [state-synchronizer.side-effects :as side-effects]
               [state-synchronizer.state        :as state]))
 
@@ -28,11 +28,11 @@
   ; @param (map) synchronizer-props
   ; @param (*) trigger-value
   [synchronizer-id synchronizer-props _]
-  (reagent/lifecycles {:component-will-unmount (fn [_ _ _] (side-effects/sensor-will-unmount-f synchronizer-id synchronizer-props))
-                       :component-did-mount    (fn [_ _ _] (side-effects/sensor-did-mount-f    synchronizer-id synchronizer-props))
-                       :component-did-update   (fn [%]     (side-effects/sensor-did-update-f   synchronizer-id %))
-                       :reagent-render         (fn [_ _ _] (if (:debug? synchronizer-props)
-                                                               [sensor-debug synchronizer-id synchronizer-props]))}))
+  (reagent/create-class {:component-will-unmount (fn [_ _ _] (side-effects/sensor-will-unmount-f synchronizer-id synchronizer-props))
+                         :component-did-mount    (fn [_ _ _] (side-effects/sensor-did-mount-f    synchronizer-id synchronizer-props))
+                         :component-did-update   (fn [%]     (side-effects/sensor-did-update-f   synchronizer-id %))
+                         :reagent-render         (fn [_ _ _] (if (:debug? synchronizer-props)
+                                                                 [sensor-debug synchronizer-id synchronizer-props]))}))
 
 (defn sensor
   ; @note

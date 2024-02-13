@@ -1,6 +1,6 @@
 
 (ns state-synchronizer.side-effects
-    (:require [reagent.api              :as reagent]
+    (:require [reagent.tools.api :as reagent.tools]
               [state-synchronizer.env   :as env]
               [state-synchronizer.state :as state]))
 
@@ -33,7 +33,7 @@
   ; When the secondary state gets updated (i.e., the trigger value changes), it checks whether
   ; the trigger value (read from the secondary state) is different from the monitor value (read from the primary state).
   ; If they are different, it updates the primary state with the (optionally modified) trigger value.
-  (let [[_ {:keys [get-monitor-value-f modify-trigger-value-f set-primary-state-f] :as synchronizer-props} trigger-value] (reagent/arguments %)]
+  (let [[_ {:keys [get-monitor-value-f modify-trigger-value-f set-primary-state-f] :as synchronizer-props} trigger-value] (reagent.tools/arguments %)]
        (let [monitor-value  (if get-monitor-value-f    (get-monitor-value-f))
              modified-value (if modify-trigger-value-f (modify-trigger-value-f trigger-value) trigger-value)]
             (when (:debug? synchronizer-props)
