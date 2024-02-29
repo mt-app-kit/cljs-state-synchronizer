@@ -13,16 +13,23 @@
   ; @param (keyword) synchronizer-id
   ; @param (map) synchronizer-props
   ; {}
-  [synchronizer-id {:keys [get-trigger-value-f modify-trigger-value-f set-primary-state-f] :as synchronizer-props}]
-  (let [trigger-value  (if get-trigger-value-f    (get-trigger-value-f))
+  [synchronizer-id {:keys [get-monitor-value-f get-trigger-value-f modify-trigger-value-f set-primary-state-f] :as synchronizer-props}]
+  (let [monitor-value  (if get-monitor-value-f    (get-monitor-value-f))
+        trigger-value  (if get-trigger-value-f    (get-trigger-value-f))
         modified-value (if modify-trigger-value-f (modify-trigger-value-f trigger-value) trigger-value)]
        (when (:debug? synchronizer-props)
              (println "--------------------")
              (println "sensor-did-mount:" synchronizer-id)
              (println "trigger-value:"    trigger-value)
+             (println "monitor-value:"    monitor-value)
              (println "modified-value:"   modified-value))
        (swap! state/MOUNTED-SENSORS update synchronizer-id inc)
-       (if set-primary-state-f (set-primary-state-f modified-value))))
+
+       ; UNTESTED!
+       ; This condition is important to avoid unnecessary primary state writes with nil values when mounting (in case the monitor value is also NIL).
+       ; Test it and delete this comment!
+       (when (not= modified-value monitor-value)
+             (if set-primary-state-f (set-primary-state-f modified-value)))))
 
 (defn sensor-did-update-f
   ; @ignore
