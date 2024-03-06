@@ -1,6 +1,6 @@
 
 (ns state-synchronizer.views
-    (:require [reagent.core :as reagent]
+    (:require [reagent.core                    :as reagent]
               [state-synchronizer.side-effects :as side-effects]
               [state-synchronizer.state        :as state]))
 

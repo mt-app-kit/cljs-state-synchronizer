@@ -1,6 +1,6 @@
 
 (ns state-synchronizer.side-effects
-    (:require [reagent.tools.api :as reagent.tools]
+    (:require [reagent.tools.api        :as reagent.tools]
               [state-synchronizer.env   :as env]
               [state-synchronizer.state :as state]))
 
