@@ -35,7 +35,7 @@
   ; @ignore
   ;
   ; @param (keyword) synchronizer-id
-  ; @param (?) %
+  ; @param (Reagent component object) %
   [synchronizer-id %]
   ; When the secondary state gets updated (i.e., the trigger value changes), it checks whether
   ; the trigger value (read from the secondary state) is different from the monitor value (read from the primary state).
