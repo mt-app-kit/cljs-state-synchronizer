@@ -12,7 +12,10 @@
   ;
   ; @param (keyword) synchronizer-id
   ; @param (map) synchronizer-props
-  ; {}
+  ; {:get-monitor-value-f (function)(opt)
+  ;  :get-trigger-value-f (function)(opt)
+  ;  :modify-trigger-value-f (function)(opt)
+  ;  ...}
   [synchronizer-id {:keys [get-monitor-value-f get-trigger-value-f modify-trigger-value-f]}]
   (let [monitor-value  (if get-monitor-value-f    (get-monitor-value-f))
         trigger-value  (if get-trigger-value-f    (get-trigger-value-f))
