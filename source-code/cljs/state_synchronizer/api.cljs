@@ -7,3 +7,4 @@
 
 ; @redirect (state-synchronizer.views/*)
 (def sensor views/sensor)
+ 
